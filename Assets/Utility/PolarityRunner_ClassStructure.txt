@@ -1,0 +1,36 @@
+PolarityRunner 클래스 계층 요약
+
+Managers                                // 게임 전역 관리
+├── GameManager                          // 싱글톤, 플레이어(ObjectPolarity) 참조와 CubeManager 보유
+└── CubeManager                          // 현재 큐브 스테이지 관리, Resources 큐브 프리팹 로드/교체
+
+Core / Cube                              // 스테이지 큐브 단위
+├── Cube                                 // 큐브 내부 시작/종료 포탈 캐싱과 초기화 진입점
+└── Cube.CubeObject                      // 큐브 내부 주요 오브젝트 구분 enum
+    └── (StartPortal, EndPortal)
+
+Polarity                                 // 극성 시스템
+├── Polarity                             // Blue, Red, Count 극성 enum
+└── ObjectPolarity                       // 오브젝트 극성 상태 보유, 극성 변경 이벤트 등록/호출
+
+PlayerController                         // 플레이어 조작과 카메라
+├── PlayerController                     // 이동, 점프, 달리기, 극성 전환, 재시작/스킵/종료 입력 처리
+├── PlayerGrab                           // 같은 극성의 물체 잡기, 놓기, 던지기 처리
+├── PlayerPolarityVisualize              // 플레이어 극성에 따라 UI 텍스트 색상 표시
+├── CameraController                     // 마우스 입력 기반 카메라 회전과 플레이어 추적
+└── CameraRouter                         // 플레이어 입력 이벤트를 메인 카메라 컨트롤러로 전달
+
+Object                                   // 포탈과 퍼즐 오브젝트
+├── StartPortal                          // 플레이어 시작 위치 설정, 일정 거리 이탈 시 리스폰
+├── EndPortal                            // 플레이어 도착 시 CubeManager로 다음 스테이지 진행
+├── ActiveSwitch                         // 연결된 Activable 목록을 켜고 끄는 스위치
+├── Active                               // 활성화 가능한 오브젝트 계층
+│   ├── Activable                        // TurnOn/TurnOff를 강제하는 추상 기반 클래스
+│   ├── Swappable : Activable            // 활성화 상태에 따라 재질과 충돌 상태 변경
+│   └── Swingable : Activable            // 활성화 중 지정 범위에서 플랫폼 왕복 이동
+└── Objects                              // 실제 퍼즐 상호작용 컴포넌트
+    ├── Barrier                          // 극성에 따라 통과/충돌 여부가 바뀌는 장벽
+    ├── Receiver                         // 색상/극성을 보유하고 센서 활성 시 ActiveSwitch 실행
+    ├── ReceiveSensor                    // 같은 극성의 Grabbable을 감지해 Receiver를 활성화
+    ├── Jumper                           // Player 또는 Grabbable에 점프 힘 적용
+    └── CubeHandler                      // 큐브 조각의 재질과 ObjectPolarity 초기화
