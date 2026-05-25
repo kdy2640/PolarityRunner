@@ -1,6 +1,6 @@
 <!-- HERO (centered only at the top) -->
 <h1 align="center">Polarity Runner</h1>
-<p align="center"><em>극성 전환 규칙을 활용한 1인칭 퍼즐 플랫포머 모작 게임</em></p>
+<p align="center"><em>Polarity 모작 게임 (1인칭 플랫포머)</em></p>
 
 <p align="center">
   <a href="https://youtu.be/vpfg4xJIBBw">
